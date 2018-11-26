@@ -33,8 +33,8 @@ app.post('/', function(req, res){
         case "Controllo":
             ToDo = JSON.stringify(req.body.queryResult.parameters.ToDo);
             ToControl = JSON.stringify(req.body.queryResult.parameters.ToControl);
-            console.log("ToDo" + ToDo);
-            console.log("ToControl" + ToControl);
+            console.log("ToDo:" + ToDo);
+            console.log("ToControl: " + ToControl);
             
             io.emit('ToControl', ToControl);
             io.emit('ToDo', ToDo);
@@ -61,6 +61,7 @@ app.post('/', function(req, res){
                     break;
                 }
             }
+            console.log("responce: "+response);
             res.send(JSON.stringify({"speech": response, "displayText": response}));
         break;
     }
