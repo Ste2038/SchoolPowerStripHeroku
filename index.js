@@ -61,8 +61,8 @@ app.post('/', function(req, res){
                     break;
                 }
             }
-            console.log("responce: "+response);
-            res.send(JSON.stringify({"speech": response, "displayText": response}));
+            console.log("responce: "+ response);
+            //res.send(JSON.stringify({"speech": response, "displayText": response}));
         break;
     }
 });
