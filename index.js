@@ -24,15 +24,20 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res){
     console.log('POST / ', JSON.stringify(req.body));
-    console.log('Parametri: ' + JSON.stringify(req.body.queryResult.parameters));
+    //console.log('Parametri: ' + JSON.stringify(req.body.queryResult.parameters));
+    console.log('Parametri: ' + JSON.stringify(req.body.result.parameters));
 
-    Intent = JSON.parse(JSON.stringify(req.body.queryResult.intent.displayName));
-    console.log("Intent" + Intent);
+    //Intent = JSON.parse(JSON.stringify(req.body.queryResult.intent.displayName));
+    //console.log("Intent" + Intent);
 
-    switch (Intent){
-        case "Controllo":
-            ToDo = JSON.stringify(req.body.queryResult.parameters.ToDo);
-            ToControl = JSON.stringify(req.body.queryResult.parameters.ToControl);
+    //switch (Intent){
+        //case "Controllo":
+            //ToDo = JSON.stringify(req.body.queryResult.parameters.ToDo);
+            //ToControl = JSON.stringify(req.body.queryResult.parameters.ToControl);
+
+            ToDo = JSON.stringify(req.body.result.parameters.ToDo);
+            ToControl = JSON.stringify(req.body.result.parameters.ToControl);
+
             console.log("ToDo:" + ToDo);
             console.log("ToControl: " + ToControl);
             
@@ -63,6 +68,6 @@ app.post('/', function(req, res){
             }
             console.log("responce: "+ response);
             res.send(JSON.stringify({"speech": response, "displayText": response}));
-        break;
-    }
+        //break;
+    //}
 });
