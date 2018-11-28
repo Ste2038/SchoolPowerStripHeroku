@@ -62,7 +62,7 @@ app.post('/', function(req, res){
                 }
             }
             console.log("responce: "+ response);
-            //res.send(JSON.stringify({"speech": response, "displayText": response}));
+            res.send(JSON.stringify({"speech": response, "displayText": response}));
         break;
     }
 });
