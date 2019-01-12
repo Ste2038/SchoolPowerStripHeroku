@@ -107,7 +107,7 @@ app.post('/', function(req, res){
             for (let i = 0; i < 2; i++){
                 console.log(ReleConfig[i]);
                 ReleData = ReleConfig[i];
-                console.log("prova");
+                console.log(ReleData);
                 if(JSON.parse(ToControlName) == ReleData[0]){
                     ToControlNum = ReleData[1];
                     //ModToControl = ReleData[2];
