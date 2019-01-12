@@ -99,7 +99,7 @@ app.post('/', function(req, res){
     //switch (Intent){
         //case "Controllo":
             ToDo = JSON.stringify(req.body.queryResult.parameters.ToDo);
-            ToConto = JSON.stringify(req.body.queryResult.parameters.ToControl);
+            ToControlName = JSON.stringify(req.body.queryResult.parameters.ToControl);
 
             //ToDo = JSON.stringify(req.body.result.parameters.ToDo);
             //ToControlName = JSON.stringify(req.body.result.parameters.ToControl);
@@ -107,7 +107,8 @@ app.post('/', function(req, res){
             for (let i = 0; i < 2; i++){
                 console.log(ReleConfig[i]);
                 ReleData = ReleConfig[i];
-                console.log(ReleData);
+                console.log(ReleData[0]);
+                console.log(ToControlName);
                 if(JSON.parse(ToControlName) == ReleData[0]){
                     ToControlNum = ReleData[1];
                     //ModToControl = ReleData[2];
