@@ -105,6 +105,7 @@ app.post('/', function(req, res){
             //ToControlName = JSON.stringify(req.body.result.parameters.ToControl);
 
             for (let i = 0; i < 2; i++){
+                console.log(ReleConfig[i]);
                 ReleData = ReleConfig[i];
                 console.log("prova");
                 if(JSON.parse(ToControlName) == ReleData[0]){
