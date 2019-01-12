@@ -2,6 +2,7 @@ var app = require('express')();
 var basicAuth = require('express-basic-auth');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
 //Variabili Entities
@@ -21,8 +22,66 @@ app.use(basicAuth({
   users: { 'admin': 'secret'}
 }));
 
-http.listen(process.env.PORT || 3000, function(){
-    console.log('listening');
+http.listen(port, function(){
+    console.log('listening on port ' + port);
+
+    io.on('connection', function(socket){
+        console.log('User Connected!');
+        for (let i = 0; i < 8; i++){
+            ReleStat[i] = false;
+        }
+
+        let stringStati = '| ';
+        for(let i = 0; i < 8; i++){
+          stringStati += ReleStat[i];
+          if (ReleStat[i]){
+            stringStati += ' ';
+          }
+          stringStati += ' | '
+        }
+        //disegno dell'array di stato
+        console.log('_________________________________________________________________');
+        console.log('|   1   |   2   |   3   |   4   |   5   |   6   |   7   |   8   |');
+        console.log(stringStati);
+        console.log('|_______________________________________________________________|');
+
+        socket.on('start', function(msgObj){
+            ReleConfig = JSON.parse(msgObj);
+            console.log("ReleConfig: " + ReleConfig);
+        });
+
+        socket.on('changeReleNum', function(msgObj){
+            _ChangeReleNum = msgObj;
+            console.log("changeReleNum: " + _ChangeReleNum);
+        });
+
+        socket.on('changeRelStatus', function(msgObj){
+            _ChangeReleStatus = msgObj
+            console.log("changeRelStatus: " + _ChangeReleStatus);
+
+            if (_ChangeReleStatus == 1){
+                ReleStat[_ChangeReleNum] = true;
+            }
+            else{
+                ReleStat[_ChangeReleNum] = false;
+            }
+
+            let stringStati = '| ';
+            for(let i = 0; i < 8; i++){
+              stringStati += ReleStat[i];
+              if (ReleStat[i]){
+                stringStati += ' ';
+              }
+              stringStati += ' | '
+            }
+            //disegno dell'array di stato
+            console.log('_________________________________________________________________');
+            console.log('|   1   |   2   |   3   |   4   |   5   |   6   |   7   |   8   |');
+            console.log(stringStati);
+            console.log('|_______________________________________________________________|');
+
+        });
+    })
 });
 
 app.get('/', function(req, res){
