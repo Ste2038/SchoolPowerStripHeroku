@@ -7,7 +7,14 @@ const bodyParser = require('body-parser');
 //Variabili Entities
 let Intent,
     ToDo,
-    ToControl;
+    ToControlName,
+    ToControlNum,
+    ReleConfig;
+
+let ReleStat = [8];
+for (let i = 0; i < 8; i++){
+    ReleStat[i] = false;
+}
 
 app.use(bodyParser.json());
 app.use(basicAuth({
@@ -33,37 +40,72 @@ app.post('/', function(req, res){
     //switch (Intent){
         //case "Controllo":
             //ToDo = JSON.stringify(req.body.queryResult.parameters.ToDo);
-            //ToControl = JSON.stringify(req.body.queryResult.parameters.ToControl);
+            //ToConto = JSON.stringify(req.body.queryResult.parameters.ToControl);
 
             ToDo = JSON.stringify(req.body.result.parameters.ToDo);
-            ToControl = JSON.stringify(req.body.result.parameters.ToControl);
+            ToControlName = JSON.stringify(req.body.result.parameters.ToControl);
+
+            for (let i = 0; i < 5; i++){
+                ReleData = ReleConfig[i];
+                if(JSON.parse(ToControlName) == ReleData[0]){
+                    ToControlNum = ReleData[1];
+                    //ModToControl = ReleData[2];
+                }
+            }
 
             console.log("ToDo:" + ToDo);
-            console.log("ToControl: " + ToControl);
-            
-            io.emit('ToControl', ToControl);
+            console.log("ToControlName: " + ToControlName);
+            console.log("ToControlNum: " + ToControlNum);
+
+            io.emit('ToControl', ToControlName);
             io.emit('ToDo', ToDo);
 
             if (JSON.parse(ToDo) == "Accendi"){
-                switch(JSON.parse(ToControl)){
+              if (ReleStat[ToControlNum] == true){
+                switch(JSON.parse(ToControlName)){
+                    case "Lampada":
+                        response = `Lampada già accesa`;
+                    break;
+
+                    case "Ventilatore":
+                        response = `Ventilatore già acceso`;
+                    break;
+                }
+              }
+              else{
+                switch(JSON.parse(ToControlName)){
                     case "Lampada":
                         response = `Ho acceso la lampada`;
                     break;
-                    
+
                     case "Ventilatore":
                         response = `Ho acceso il ventilatore`;
                     break;
                 }
+              }
             }
             else if (JSON.parse(ToDo) == "Spegni"){
-                switch(JSON.parse(ToControl)){
-                    case "Lampada":
-                        response = `Ho spento la lampada`;
-                    break;
-                    
-                    case "Ventilatore":
-                        response = `Ho spento il ventilatore`;
-                    break;
+                if (ReleStat[ToControlNum] == true){
+                  switch(JSON.parse(ToControlName)){
+                      case "Lampada":
+                          response = `Ho spento la lampada`;
+                      break;
+
+                      case "Ventilatore":
+                          response = `Ho spento il ventilatore`;
+                      break;
+                  }
+                }
+                else{
+                    switch(JSON.parse(ToControlName)){
+                        case "Lampada":
+                            response = `Lampada già spenta`;
+                        break;
+
+                        case "Ventilatore":
+                            response = `Ventilatore già spento`;
+                        break;
+                    }
                 }
             }
             console.log("responce: "+ response);
