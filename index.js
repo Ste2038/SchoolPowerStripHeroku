@@ -104,7 +104,7 @@ app.post('/', function(req, res){
             //ToDo = JSON.stringify(req.body.result.parameters.ToDo);
             //ToControlName = JSON.stringify(req.body.result.parameters.ToControl);
 
-            for (let i = 0; i < 5; i++){
+            for (let i = 0; i < 2; i++){
                 ReleData = ReleConfig[i];
                 if(JSON.parse(ToControlName) == ReleData[0]){
                     ToControlNum = ReleData[1];
